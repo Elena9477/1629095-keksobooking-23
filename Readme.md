@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Elena9477](https://up.htmlacademy.ru/javascript/23/user/1629095).
-* Наставник: `Неизвестно`.
+* Наставник: [Максим Прусаков](https://htmlacademy.ru/profile/hikikomori).
 
 ---
 
