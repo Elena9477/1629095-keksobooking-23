@@ -21,3 +21,6 @@ function getCoordsFloat(min, max, number) {
     return Math.abs(Math.random() * (min - max + 1) + max).toFixed(number);
   }
 }
+
+getCoordsInt(1, 5);
+getCoordsFloat(0, 20, 3);
