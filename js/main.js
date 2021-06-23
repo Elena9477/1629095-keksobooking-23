@@ -1,19 +1,23 @@
-function getCoords (min, max, number) {
-  if (min == max) {
-    return Math.abs(min.toFixed(number));
+function getCoordsInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  if (min === max) {
+    return Math.abs(min);
   }
-  while(true) {
-    let rand;
-    if (max > min) {
-      rand = min - 0.5 + Math.random() * (max - min + 1);
-    } else {
-      rand = max - 0.5 + Math.random() * (min - max + 1);
-    }
-    console.log(rand);
-      return Math.abs(rand.toFixed(number));
+  if (max > min) {
+    return Math.abs(Math.floor(Math.random() * (max - min + 1) + min));
+  } else {
+    return Math.abs(Math.floor(Math.random() * (min - max + 1) + max));
   }
-
 }
 
-console.log(`вызов функции getCoords(). ответ: ${getCoords(1, 1, 5)}`);
-
+function getCoordsFloat(min, max, number) {
+  if (min === max) {
+    return Math.abs(min.toFixed(number));
+  }
+  if (max > min) {
+    return Math.abs(Math.random() * (max - min + 1) + min).toFixed(number);
+  } else {
+    return Math.abs(Math.random() * (min - max + 1) + max).toFixed(number);
+  }
+}
