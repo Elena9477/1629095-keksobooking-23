@@ -1,3 +1,4 @@
+const OBJNUM = 10;
 const MINLAT = 35.65000;
 const MAXLAT = 35.70000;
 const FIXTONUMBER = 5;
@@ -32,8 +33,7 @@ const PHOTOS = [
 const MINPHOTOSNUMBER = 1;
 const MAXPHOTOSNUMBER = 20;
 
-
-function getCoordsInt(min, max) {
+const getCoordsInt = (min, max) => {
   min = Math.ceil(min);
   max = Math.floor(max);
   if (min === max) {
@@ -44,9 +44,9 @@ function getCoordsInt(min, max) {
   } else {
     return +Math.abs(Math.floor(Math.random() * (min - max + 1) + max));
   }
-}
+};
 
-function getCoordsFloat(min, max, number) {
+const getCoordsFloat = (min, max, number) => {
   if (min === max) {
     return +Math.abs(min.toFixed(number));
   }
@@ -55,13 +55,13 @@ function getCoordsFloat(min, max, number) {
   } else {
     return +Math.abs(Math.random() * (min - max) + max).toFixed(number);
   }
-}
+};
 
 const getType = () => TYPES[getCoordsInt(0, TYPES.length - 1)];
 
 const getTime = () => TIMES[getCoordsInt(0, TIMES.length - 1)];
 
-function getFeatures() {
+const getFeatures = () => {
   const featuresNumber = getCoordsInt(0, FEATURES.length - 1);
   const copy = FEATURES.slice();
   let feature = '';
@@ -71,20 +71,20 @@ function getFeatures() {
     checkedFeatures.push(...feature);
   }
   return checkedFeatures;
-}
+};
 
 const getDescr = () => DESCRIPTIONS[getCoordsInt(0, DESCRIPTIONS.length - 1)];
 
-function getPhotos() {
+const getPhotos = () => {
   const photosNumber = getCoordsInt(MINPHOTOSNUMBER, MAXPHOTOSNUMBER);
   const photosList = [];
   for(let i = 0; i < photosNumber; i++) {
     photosList.push(PHOTOS[getCoordsInt(0, PHOTOS.length - 1)]);
   }
   return photosList;
-}
+};
 
-function getObj(i) {
+const getObj = (i) => {
   const locationLat = getCoordsFloat(MINLAT, MAXLAT, FIXTONUMBER);
   const locationLng = getCoordsFloat(MINLNG, MAXLNG, FIXTONUMBER);
   const obj = {
@@ -110,15 +110,15 @@ function getObj(i) {
     },
   };
   return obj;
-}
+};
 
-const arr = () => {
+const getOffersArr = () => {
   const array = [];
-  for(let i = 0; i < 10; i++) {
-    array.push(getObj(i+1));
+  for(let i = 1; i <= OBJNUM; i++) {
+    array.push(getObj(i));
   }
   return array;
 };
 
-arr();
+getOffersArr();
 
