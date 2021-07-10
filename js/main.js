@@ -1,3 +1,3 @@
-import {showCard} from './ads.js';
+import {showCard} from './map.js';
 
 showCard(0);
