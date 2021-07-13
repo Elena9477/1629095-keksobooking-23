@@ -8,6 +8,18 @@ const createElement = (template, text) => {
   return fragment.appendChild(element);
 };
 
+const addNewBlock = (cardElement, template, text, data, addingData) => {
+  if (addingData) {
+    if (data || addingData) {
+      cardElement.appendChild(createElement(template, text));
+    }
+  } else {
+    if (data) {
+      cardElement.appendChild(createElement(template, text));
+    }
+  }
+};
+
 const createCards = () => {
   const offersArr = getOffersArr();
   const cards = [];
@@ -24,35 +36,17 @@ const createCards = () => {
       cardElement.appendChild(avaElem);
     }
 
-    template = templateFragment.querySelector('.popup__title');
-    if (offerElem.offer.title) {
-      cardElement.appendChild(createElement(template, offerElem.offer.title));
-    }
+    addNewBlock(cardElement, templateFragment.querySelector('.popup__title'), offerElem.offer.title, offerElem.offer.title);
 
-    template = templateFragment.querySelector('.popup__text--address');
-    if (offerElem.offer.address) {
-      cardElement.appendChild(createElement(template, offerElem.offer.address));
-    }
+    addNewBlock(cardElement, templateFragment.querySelector('.popup__text--address'), offerElem.offer.address, offerElem.offer.address);
 
-    template = templateFragment.querySelector('.popup__text--price');
-    if (offerElem.offer.price) {
-      cardElement.appendChild(createElement(template, `${offerElem.offer.price}₽/ночь`));
-    }
+    addNewBlock(cardElement, templateFragment.querySelector('.popup__text--price'), `${offerElem.offer.price}₽/ночь`, offerElem.offer.price);
 
-    template = templateFragment.querySelector('.popup__type');
-    if (offerElem.offer.type) {
-      cardElement.appendChild(createElement(template, TYPES[offerElem.offer.type]));
-    }
+    addNewBlock(cardElement, templateFragment.querySelector('.popup__type'), TYPES[offerElem.offer.type], TYPES[offerElem.offer.type]);
 
-    template = templateFragment.querySelector('.popup__text--capacity');
-    if (offerElem.offer.rooms || offerElem.offer.guests) {
-      cardElement.appendChild(createElement(template, `${offerElem.offer.rooms} комнаты для ${offerElem.offer.guests} гостей`));
-    }
+    addNewBlock(cardElement, templateFragment.querySelector('.popup__text--capacity'), `${offerElem.offer.rooms} комнаты для ${offerElem.offer.guests} гостей`, offerElem.offer.rooms, offerElem.offer.guests);
 
-    template = templateFragment.querySelector('.popup__text--time');
-    if (offerElem.offer.checkin || offerElem.offer.checkout) {
-      cardElement.appendChild(createElement(template, `Заезд после ${offerElem.offer.checkin}, выезд до ${offerElem.offer.checkout}`));
-    }
+    addNewBlock(cardElement, templateFragment.querySelector('.popup__text--capacity'), `Заезд после ${offerElem.offer.checkin}, выезд до ${offerElem.offer.checkout}`, offerElem.offer.checkin, offerElem.offer.checkout);
 
     let flag = false;
     const featuresListTempl = templateFragment.querySelector('.popup__features');
