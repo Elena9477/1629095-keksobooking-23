@@ -9,14 +9,8 @@ const createElement = (template, text) => {
 };
 
 const addNewBlock = (cardElement, template, text, data, addingData) => {
-  if (addingData) {
-    if (data || addingData) {
-      cardElement.appendChild(createElement(template, text));
-    }
-  } else {
-    if (data) {
-      cardElement.appendChild(createElement(template, text));
-    }
+  if (data || addingData) {
+    cardElement.appendChild(createElement(template, text));
   }
 };
 
