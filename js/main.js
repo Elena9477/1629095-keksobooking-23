@@ -1,3 +1,3 @@
-import {getOffersArr} from './data.js';
+import {showCard} from './map.js';
 
-getOffersArr();
+showCard(0);
