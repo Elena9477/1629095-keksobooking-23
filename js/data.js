@@ -6,4 +6,12 @@ const TYPES = {
   hotel: 'Отель',
 };
 
-export {TYPES};
+const MINPRICES = {
+  flat: 1000,
+  bungalow: 0,
+  house: 5000,
+  palace: 10000,
+  hotel: 3000,
+};
+
+export {TYPES, MINPRICES};
