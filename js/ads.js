@@ -14,8 +14,10 @@ const addNewBlock = (cardElement, template, text, data, addingData) => {
   }
 };
 
+let offersArr;
+
 const createCards = () => {
-  const offersArr = getOffersArr();
+  offersArr = getOffersArr();
   const cards = [];
   offersArr.forEach((offerElem) => {
     const templateFragment = document.querySelector('#card').content;
@@ -83,5 +85,5 @@ const createCards = () => {
   return cards;
 };
 
+export { createCards, offersArr };
 
-export { createCards };

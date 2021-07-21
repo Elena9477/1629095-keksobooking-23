@@ -10,6 +10,8 @@ const adPrice = document.querySelector('#price');
 const adType = document.querySelector('#type');
 const roomNumber = document.querySelector('#room_number');
 const capacity = document.querySelector('#capacity');
+const timeIn = document.querySelector('#timein');
+const timeOut = document.querySelector('#timeout');
 
 const removeAttributeDisabled = (arr) =>
   arr.forEach((element) => element.removeAttribute('disabled'));
@@ -96,5 +98,9 @@ synchronizeRoomsForCapacity();
 roomNumber.addEventListener('change', () => {
   synchronizeRoomsForCapacity();
 });
+
+timeIn.addEventListener('change', () => timeOut.value = timeIn.value);
+
+timeOut.addEventListener('change', () => timeIn.value = timeOut.value);
 
 export { setFormModeActiveOn, setFormModeActiveOff };
