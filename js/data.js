@@ -1,9 +1,9 @@
 const TYPES = {
-  flat: 'Квартира',
-  bungalow: 'Бунгало',
-  house: 'Дом',
-  palace: 'Дворец',
-  hotel: 'Отель',
+  flat: "Квартира",
+  bungalow: "Бунгало",
+  house: "Дом",
+  palace: "Дворец",
+  hotel: "Отель",
 };
 
 const MINPRICES = {
@@ -14,4 +14,17 @@ const MINPRICES = {
   hotel: 3000,
 };
 
-export {TYPES, MINPRICES};
+const MAXPRICE = 1000000;
+
+const ROOMSFORGUESTS = {
+  1: [1],
+  2: [1, 2],
+  3: [1, 2, 3],
+  100: [0],
+};
+
+const MINLENGTHTITLE = 30;
+
+const MAXLENGTHTITLE = 100;
+
+export { TYPES, MINPRICES, MAXPRICE, ROOMSFORGUESTS, MINLENGTHTITLE, MAXLENGTHTITLE};
