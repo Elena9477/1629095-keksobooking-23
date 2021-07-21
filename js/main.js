@@ -1,5 +1,5 @@
-import {showCard} from './map.js';
-import {setFormModeActiveOn} from './form.js';
+import {map} from './map.js';
+import {setFormModeActiveOff} from './form.js';
 
-showCard(0);
-setFormModeActiveOn();
+map();
+setFormModeActiveOff();

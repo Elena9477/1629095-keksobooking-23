@@ -1,13 +1,14 @@
 import { createCards, offersArr } from './ads.js';
 import {LAT, LNG} from './data.js';
+import {setFormModeActiveOn} from './form.js';
 
 const card = createCards();
 const adAddress = document.querySelector('#address');
 
-// const map = document.querySelector('#map-canvas');
 const showCard = (i) => card[i];
 const map = L.map('map-canvas')
   .on('load', () => {
+    setFormModeActiveOn();
   })
   .setView({
     lat: LAT,
@@ -70,4 +71,4 @@ marker.on('moveend', (evt) => {
   adAddress.value = evt.target.getLatLng();
 });
 
-export { showCard };
+export { map };
