@@ -78,7 +78,7 @@ const setFormModeActiveOff = () => {
 
 const capacityVariants = capacity.querySelectorAll('option');
 
-roomNumber.addEventListener('change', () => {
+const synchronizeRoomsForCapacity = () => {
   const selectedRoomNumber = roomNumber.value;
   capacity.innerHTML = '';
   capacityVariants.forEach((option) => {
@@ -89,6 +89,12 @@ roomNumber.addEventListener('change', () => {
       capacity.appendChild(opt);
     }
   });
+};
+
+synchronizeRoomsForCapacity();
+
+roomNumber.addEventListener('change', () => {
+  synchronizeRoomsForCapacity();
 });
 
 export { setFormModeActiveOn, setFormModeActiveOff };
