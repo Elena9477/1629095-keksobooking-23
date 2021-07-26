@@ -120,7 +120,8 @@ timeIn.addEventListener('change', () => timeOut.value = timeIn.value);
 
 timeOut.addEventListener('change', () => timeIn.value = timeOut.value);
 
-const resetFunction = () => {
+const resetFunction = (evt) => {
+  evt.preventDefault();
   form.reset();
   mapFilters.reset();
   adPrice.placeholder = MIN_PRICES[adType.value];
@@ -155,6 +156,6 @@ const setUserFormSubmit = (onSuccess, onError) => {
   });
 };
 
-adFormReset.addEventListener('click', resetFunction);
+adFormReset.addEventListener('click', (evt) => { resetFunction(evt); });
 
 export { setFormModeActiveOn, setFormModeActiveOff, setUserFormSubmit };
