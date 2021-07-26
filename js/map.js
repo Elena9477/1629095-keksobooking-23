@@ -11,6 +11,23 @@ const basePinIcon = L.icon({
 });
 const similarPins = [];
 
+const mainPinIcon = L.icon({
+  iconUrl: '/img/main-pin.svg',
+  iconSize: [52, 52],
+  iconAnchor: [26, 52],
+});
+
+const marker = L.marker(
+  {
+    lat: LAT,
+    lng: LNG,
+  },
+  {
+    draggable: true,
+    icon: mainPinIcon,
+  },
+);
+
 const renderSimilarPins = (offersArr) => {
   const cards = createCards(offersArr);
   const showCard = (i) => cards[i];
@@ -52,24 +69,6 @@ const initMap = (setFormModeActiveOn) => {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     },
   ).addTo(map);
-
-  const mainPinIcon = L.icon({
-    iconUrl: '/img/main-pin.svg',
-    iconSize: [52, 52],
-    iconAnchor: [26, 52],
-  });
-
-  const marker = L.marker(
-    {
-      lat: LAT,
-      lng: LNG,
-    },
-    {
-      draggable: true,
-      icon: mainPinIcon,
-    },
-  );
-
   marker
     .addTo(map);
 
@@ -82,4 +81,4 @@ const createMap = (setFormModeActiveOn) => {
   initMap(setFormModeActiveOn);
 
 };
-export { createMap, removeSimilarPins, renderSimilarPins };
+export { createMap, removeSimilarPins, renderSimilarPins, map, marker };

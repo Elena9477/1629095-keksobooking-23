@@ -5,22 +5,27 @@ import {
   MIN_LENGTH_TITLE,
   MAX_LENGTH_TITLE,
   LAT,
-  LNG, URL_FOR_SEND_DATA
+  LNG,
+  URL_FOR_SEND_DATA
 } from './data.js';
 
-const FORM = document.querySelector('.ad-form');
-const FORM_FIELDSET = FORM.querySelectorAll('fieldset');
-const MAP_FILTERS = document.querySelector('.map__filters');
-const MAP_FILTERS_SELECTS = MAP_FILTERS.querySelectorAll('select');
-const MAP_FILTERS_FIELDSETS = MAP_FILTERS.querySelectorAll('fieldset');
-const AD_TITLE = document.querySelector('#title');
-const AD_PRICE = document.querySelector('#price');
-const AD_TYPE = document.querySelector('#type');
-const ROOM_NUMBER = document.querySelector('#room_number');
-const CAPACITY = document.querySelector('#capacity');
-const TIME_IN = document.querySelector('#timein');
-const TIME_OUT = document.querySelector('#timeout');
-const AD_ADDRESS = document.querySelector('#address');
+import { removeSimilarPins, renderSimilarPins, map, marker } from './map.js';
+import { getPreparedData } from './store.js';
+
+const form = document.querySelector('.ad-form');
+const formFieldsets = form.querySelectorAll('fieldset');
+const mapFilters = document.querySelector('.map__filters');
+const mapFiltersSelects = mapFilters.querySelectorAll('select');
+const mapFiltersFieldsets = mapFilters.querySelectorAll('fieldset');
+const adTitle = document.querySelector('#title');
+const adPrice = document.querySelector('#price');
+const adType = document.querySelector('#type');
+const roomNumber = document.querySelector('#room_number');
+const capacity = document.querySelector('#capacity');
+const timeIn = document.querySelector('#timein');
+const timeOut = document.querySelector('#timeout');
+const adAddress = document.querySelector('#address');
+const adFormReset = document.querySelector('.ad-form__reset');
 
 const removeAttributeDisabled = (elements) =>
   elements.forEach((element) => element.removeAttribute('disabled'));
@@ -28,52 +33,52 @@ const setAttributeDisabled = (elements) =>
   elements.forEach((element) => element.setAttribute('disabled', 'disabled'));
 
 const setFormActiveOn = () => {
-  FORM.classList.remove('ad-form--disabled');
-  removeAttributeDisabled(FORM_FIELDSET);
+  form.classList.remove('ad-form--disabled');
+  removeAttributeDisabled(formFieldsets);
 };
 
 const setFormActiveOff = () => {
-  FORM.classList.add('ad-form--disabled');
-  setAttributeDisabled(FORM_FIELDSET);
+  form.classList.add('ad-form--disabled');
+  setAttributeDisabled(formFieldsets);
 };
 
 const setMapFiltersActiveOn = () => {
-  MAP_FILTERS.classList.remove('map__filters--disabled');
-  removeAttributeDisabled(MAP_FILTERS_SELECTS);
-  removeAttributeDisabled(MAP_FILTERS_FIELDSETS);
+  mapFilters.classList.remove('map__filters--disabled');
+  removeAttributeDisabled(mapFiltersSelects);
+  removeAttributeDisabled(mapFiltersFieldsets);
 };
 
 const setMapFiltersActiveOff = () => {
-  MAP_FILTERS.classList.add('map__filters--disabled');
-  setAttributeDisabled(MAP_FILTERS_SELECTS);
-  setAttributeDisabled(MAP_FILTERS_FIELDSETS);
+  mapFilters.classList.add('map__filters--disabled');
+  setAttributeDisabled(mapFiltersSelects);
+  setAttributeDisabled(mapFiltersFieldsets);
 };
 
-AD_TITLE.addEventListener('input', () => {
-  if (AD_TITLE.value.length < MIN_LENGTH_TITLE) {
-    AD_TITLE.setCustomValidity(`Ещё ${MIN_LENGTH_TITLE - AD_TITLE.value.length} символов.`);
-  } else if (+AD_TITLE.value.length > MAX_LENGTH_TITLE) {
-    AD_TITLE.setCustomValidity(`Сократите заголовок на ${AD_TITLE.value.length - MAX_LENGTH_TITLE} символов.`);
+adTitle.addEventListener('input', () => {
+  if (adTitle.value.length < MIN_LENGTH_TITLE) {
+    adTitle.setCustomValidity(`Ещё ${MIN_LENGTH_TITLE - adTitle.value.length} символов.`);
+  } else if (+adTitle.value.length > MAX_LENGTH_TITLE) {
+    adTitle.setCustomValidity(`Сократите заголовок на ${adTitle.value.length - MAX_LENGTH_TITLE} символов.`);
   } else {
-    AD_TITLE.setCustomValidity('');
+    adTitle.setCustomValidity('');
   }
 
-  AD_TITLE.reportValidity();
+  adTitle.reportValidity();
 });
 
-AD_PRICE.addEventListener('input', () => {
-  if (AD_PRICE.value < MIN_PRICES[AD_TYPE.value]) {
-    AD_PRICE.setCustomValidity(`Значение должно быть не менее ${MIN_PRICES[AD_TYPE.value]}.`);
-  } else if (+AD_PRICE.value > MAX_PRICE) {
-    AD_PRICE.setCustomValidity(`Значение не должно превышать ${MAX_PRICE}.`);
+adPrice.addEventListener('input', () => {
+  if (adPrice.value < MIN_PRICES[adType.value]) {
+    adPrice.setCustomValidity(`Значение должно быть не менее ${MIN_PRICES[adType.value]}.`);
+  } else if (+adPrice.value > MAX_PRICE) {
+    adPrice.setCustomValidity(`Значение не должно превышать ${MAX_PRICE}.`);
   } else {
-    AD_PRICE.setCustomValidity('');
+    adPrice.setCustomValidity('');
   }
 
-  AD_PRICE.reportValidity();
+  adPrice.reportValidity();
 });
-AD_TYPE.addEventListener('change', () => {
-  AD_PRICE.placeholder = MIN_PRICES[AD_TYPE.value];
+adType.addEventListener('change', () => {
+  adPrice.setAttribute('placeholder', MIN_PRICES[adType.value]);
 });
 
 const setFormModeActiveOn = () => {
@@ -86,41 +91,50 @@ const setFormModeActiveOff = () => {
   setMapFiltersActiveOff();
 };
 
-const capacityVariants = CAPACITY.querySelectorAll('option');
+const capacityVariants = capacity.querySelectorAll('option');
 
 const synchronizeRoomsForCapacity = () => {
-  const selectedRoomNumber = ROOM_NUMBER.value;
-  CAPACITY.textContent = '';
+  const selectedRoomNumber = roomNumber.value;
+  capacity.textContent = '';
   capacityVariants.forEach((option) => {
     if (ROOMS_FOR_GUESTS[selectedRoomNumber].includes(+option.value)) {
       const opt = document.createElement('option');
       opt.value = option.value;
       opt.textContent = option.textContent;
-      CAPACITY.appendChild(opt);
+      capacity.appendChild(opt);
     }
   });
 };
 
-AD_PRICE.placeholder = MIN_PRICES[AD_TYPE.value];
+adPrice.setAttribute('placeholder', MIN_PRICES[adType.value]);
 
-AD_ADDRESS.value = `${LAT}, ${LNG}`;
+adAddress.value = `${LAT}, ${LNG}`;
 
 synchronizeRoomsForCapacity();
 
-ROOM_NUMBER.addEventListener('change', () => {
+roomNumber.addEventListener('change', () => {
   synchronizeRoomsForCapacity();
 });
 
-TIME_IN.addEventListener('change', () => {
-  return TIME_OUT.value = TIME_IN.value;
-});
+timeIn.addEventListener('change', () => timeOut.value = timeIn.value);
 
-TIME_OUT.addEventListener('change', () => {
-  return TIME_IN.value = TIME_OUT.value;
-});
+timeOut.addEventListener('change', () => timeIn.value = timeOut.value);
+
+const resetFunction = () => {
+  form.reset();
+  mapFilters.reset();
+  adPrice.placeholder = MIN_PRICES[adType.value];
+  synchronizeRoomsForCapacity();
+  removeSimilarPins();
+  renderSimilarPins(getPreparedData());
+  map.setView({ lat: LAT, lng: LNG }, 10);
+  const newLatLng = new L.LatLng(LAT, LNG);
+  marker.setLatLng(newLatLng);
+  adAddress.value = `${LAT}, ${LNG}`;
+};
 
 const setUserFormSubmit = (onSuccess, onError) => {
-  FORM.addEventListener('submit', (evt) => {
+  form.addEventListener('submit', (evt) => {
     evt.preventDefault();
     fetch(URL_FOR_SEND_DATA,
       {
@@ -136,16 +150,11 @@ const setUserFormSubmit = (onSuccess, onError) => {
         throw new Error(`${response.status} ${response.statusText}`);
       })
       .then(() => onSuccess())
+      .then(() => resetFunction())
       .catch(() => onError());
   });
 };
 
-const resetFunction = () => {
-  AD_PRICE.placeholder = MIN_PRICES[AD_TYPE.value];
-  AD_ADDRESS.value = `${LAT}, ${LNG}`;
-  synchronizeRoomsForCapacity();
-};
-
-FORM.addEventListener('reset', resetFunction);
+adFormReset.addEventListener('click', resetFunction);
 
 export { setFormModeActiveOn, setFormModeActiveOff, setUserFormSubmit };
