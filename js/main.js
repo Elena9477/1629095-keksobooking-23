@@ -1,5 +1,11 @@
-import {map} from './map.js';
-import {setFormModeActiveOff} from './form.js';
+import { createMap } from './map.js';
+import { setFormModeActiveOff, setUserFormSubmit, setFormModeActiveOn } from './form.js';
+import { createModalError, createModalSuccess, showModalSuccess, showModalError } from './modal.js';
+import { setFilterListener } from './filter-form.js';
 
-map();
 setFormModeActiveOff();
+createMap(setFormModeActiveOn);
+createModalError();
+createModalSuccess();
+setUserFormSubmit(showModalSuccess, showModalError);
+setFilterListener();
