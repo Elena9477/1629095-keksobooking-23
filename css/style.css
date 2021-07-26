@@ -1028,3 +1028,8 @@ fieldset {
 .hidden {
   display: none;
 }
+
+.ad-form__photo img {
+  max-height: 100%;
+  max-width: 100%;
+}

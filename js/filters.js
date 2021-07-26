@@ -15,7 +15,7 @@ const featuresValue = {
 };
 
 const MIN_MIDDLE_PRICE = 10000;
-const MIN_HIGH_PRICE = 10000;
+const MIN_HIGH_PRICE = 50000;
 
 const setSelectValue = (name, value) => {
   criteriasValue[name] = value;

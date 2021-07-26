@@ -6,7 +6,8 @@ import {
   MAX_LENGTH_TITLE,
   LAT,
   LNG,
-  URL_FOR_SEND_DATA
+  URL_FOR_SEND_DATA,
+  URL_AVATAR_EMPTY_IMG
 } from './data.js';
 
 import { removeSimilarPins, renderSimilarPins, map, marker } from './map.js';
@@ -26,6 +27,8 @@ const timeIn = document.querySelector('#timein');
 const timeOut = document.querySelector('#timeout');
 const adAddress = document.querySelector('#address');
 const adFormReset = document.querySelector('.ad-form__reset');
+const preview = document.querySelector('.ad-form__photo img');
+const previewAvatar = document.querySelector('.ad-form-header__preview img');
 
 const removeAttributeDisabled = (elements) =>
   elements.forEach((element) => element.removeAttribute('disabled'));
@@ -116,12 +119,15 @@ roomNumber.addEventListener('change', () => {
   synchronizeRoomsForCapacity();
 });
 
-timeIn.addEventListener('change', () => timeOut.value = timeIn.value);
+timeIn.addEventListener('change', () => {
+  timeOut.value = timeIn.value;
+});
 
-timeOut.addEventListener('change', () => timeIn.value = timeOut.value);
+timeOut.addEventListener('change', () => {
+  timeIn.value = timeOut.value;
+});
 
-const resetFunction = (evt) => {
-  evt.preventDefault();
+const resetFunction = () => {
   form.reset();
   mapFilters.reset();
   adPrice.placeholder = MIN_PRICES[adType.value];
@@ -132,6 +138,8 @@ const resetFunction = (evt) => {
   const newLatLng = new L.LatLng(LAT, LNG);
   marker.setLatLng(newLatLng);
   adAddress.value = `${LAT}, ${LNG}`;
+  preview.src = '';
+  previewAvatar.src = URL_AVATAR_EMPTY_IMG;
 };
 
 const setUserFormSubmit = (onSuccess, onError) => {
@@ -156,6 +164,9 @@ const setUserFormSubmit = (onSuccess, onError) => {
   });
 };
 
-adFormReset.addEventListener('click', (evt) => { resetFunction(evt); });
+adFormReset.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  resetFunction();
+});
 
 export { setFormModeActiveOn, setFormModeActiveOff, setUserFormSubmit };
